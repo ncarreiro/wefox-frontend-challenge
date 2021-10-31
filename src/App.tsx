@@ -14,7 +14,7 @@ interface IPost {
 }
 
 function App() {
-  const [{ data: posts, loading, error }, refetch] = useAxios(
+  const [{ data: posts, loading, error }] = useAxios(
     "http://localhost:3000/api/v1/posts"
   );
 
@@ -25,19 +25,36 @@ function App() {
       ) : error ? (
         <div>{error.message}</div>
       ) : (
-        posts.map((post: IPost) => (
-          <div style={{ margin: 20 }}>
-            <div>{post.title}</div>
-            <img
-              src={post.image_url}
-              style={{ maxWidth: 400 }}
-              onError={(event: any) => (event.target.src = noImage)}
-            />
-            <div>{post.content}</div>
-            <div>{post.lat}</div>
-            <div>{post.long}</div>
-          </div>
-        ))
+        <table>
+          <thead>
+            <td>Title</td>
+            <td>Image</td>
+            <td>Content</td>
+            <td>Latitude</td>
+            <td>Longitude</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+          </thead>
+          <tbody>
+            {posts.map((post: IPost) => (
+              <tr>
+                <td>{post.title}</td>
+                <td>
+                  <img
+                    src={post.image_url}
+                    style={{ maxWidth: 400 }}
+                    onError={(event: any) => (event.target.src = noImage)}
+                  />
+                </td>
+                <td>{post.content}</td>
+                <td>{post.lat}</td>
+                <td>{post.long}</td>
+                <td>{post.created_at}</td>
+                <td>{post.updated_at}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
