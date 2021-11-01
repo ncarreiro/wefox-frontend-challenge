@@ -3,11 +3,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
+// MATERIAL UI
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 // COMPONENTS
 import App from "./App";
 
 // STYLING
-import "./index.css";
+import "./index.scss";
 
 // AXIOS
 import Axios from "axios";
@@ -21,10 +24,26 @@ const axios = Axios.create({
 // Configuring axios-hooks with Axios config
 configure({ axios });
 
+// Configuring MUI theme
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#501e96",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: "#04c9c4",
+      contrastText: "#000",
+    },
+  },
+});
+
 // Rendering App
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

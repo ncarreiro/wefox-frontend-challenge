@@ -5,17 +5,22 @@ import Typography from "@mui/material/Typography";
 // COMPONENTS
 import PostsGrid from "./components/PostsGrid";
 
+// STYLING
+import "./App.scss";
+
 function App() {
   return (
-    <Grid container justifyContent="center" alignItems="center" sx={{ my: 2 }}>
-      <Grid item xs={12}>
-        <Typography variant="h2" align="center" gutterBottom component="div">
-          Wefox Frontend Challenge
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h4" align="center" gutterBottom component="div">
-          by Nahuel Carreiro
+    <Grid container justifyContent="center" alignItems="center" sx={{ py: 2 }}>
+      <Grid item xs={12} sx={{ my: 2 }}>
+        <Typography
+          variant="h4"
+          align="center"
+          component="div"
+          fontWeight="700"
+          className="app__title"
+        >
+          Wefox <span className="app__title--secondary">Frontend</span>{" "}
+          Challenge
         </Typography>
       </Grid>
       <Grid item xs={12}>

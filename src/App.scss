@@ -1,0 +1,9 @@
+@import "styles/colors";
+
+.app__title {
+    color: $neutral-lightest;
+
+    &--secondary {
+        color: $secondary-base;
+    }
+}

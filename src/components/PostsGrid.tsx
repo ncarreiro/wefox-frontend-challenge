@@ -21,7 +21,7 @@ const PostsGrid = () => {
       container
       justifyContent="center"
       alignItems="center"
-      spacing={2}
+      spacing={4}
       data-testid="posts-table"
       sx={{ my: 2 }}
     >

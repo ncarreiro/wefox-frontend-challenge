@@ -14,7 +14,10 @@ import IPost from "../types/Post";
 // NO IMAGE FALLBACK
 import noImage from "../images/no-image.jpg";
 import { useState } from "react";
-import EditPost from "./EditPost";
+import EditPost from "./forms/EditPost";
+
+// STYLING
+import "./Post.scss";
 
 const Post = ({
   id,
@@ -35,22 +38,35 @@ const Post = ({
           <CardMedia
             data-testid={`post-${id}-image`}
             component="img"
-            height="140"
+            height="220"
             alt={title}
             image={image_url}
             onError={(event: any) => (event.target.src = noImage)}
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              className="post__title"
+            >
               {title}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="post__content"
+            >
               {content}
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Grid container>
               <Grid item xs>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  fontWeight="bold"
+                >
                   Latitude:
                 </Typography>
               </Grid>
@@ -63,7 +79,11 @@ const Post = ({
             <Divider sx={{ my: 2 }} />
             <Grid container>
               <Grid item xs>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  fontWeight="bold"
+                >
                   Longitude:
                 </Typography>
               </Grid>
@@ -76,7 +96,11 @@ const Post = ({
             <Divider sx={{ my: 2 }} />
             <Grid container>
               <Grid item xs>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  fontWeight="bold"
+                >
                   Created at:
                 </Typography>
               </Grid>
@@ -89,7 +113,11 @@ const Post = ({
             <Divider sx={{ my: 2 }} />
             <Grid container sx={{ mb: 1 }}>
               <Grid item xs>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  fontWeight="bold"
+                >
                   Last updated:
                 </Typography>
               </Grid>
