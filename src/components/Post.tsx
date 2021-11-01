@@ -20,6 +20,7 @@ const Post = ({
         src={image_url}
         style={{ maxWidth: 400 }}
         onError={(event: any) => (event.target.src = noImage)}
+        alt={title}
       />
     </td>
     <td>{content}</td>
