@@ -1,15 +1,24 @@
+// REACT
+import React, { useState } from "react";
+
+// AXIOS
+import useAxios from "axios-hooks";
+
 // FORMIK
 import { Formik, Form, Field } from "formik";
+import { TextField } from "formik-mui";
 
 // MATERIAL UI COMPONENTS
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
-import { TextField } from "formik-mui";
-
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+
+// TOASTS
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 // ICONS
 import CheckIcon from "@mui/icons-material/Check";
@@ -18,9 +27,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // INTERFACES
 import IPost from "../../types/Post";
-import { useState } from "react";
 
 interface IEditPost extends IPost {
+  onSubmit: (post: IPost) => void;
   onCancel: () => void;
 }
 
@@ -33,16 +42,37 @@ const EditPost = ({
   long,
   created_at,
   updated_at,
+  onSubmit,
   onCancel,
 }: IEditPost) => {
-  const [submitting, setSubmitting] = useState(false);
+  // AXIOS PUT METHOD
+  const [{ loading, error }, executePut] = useAxios(
+    {
+      url: `/posts/${id}`,
+      method: "PUT",
+    },
+    { manual: true }
+  );
 
-  const handleSubmit = (values: IPost) => {
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      alert(JSON.stringify(values, null, 2));
-    }, 500);
+  // TOASTS STATES
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+
+  const handleSubmit = async (values: IPost) => {
+    try {
+      await executePut({
+        data: {
+          title: values.title,
+          content: values.content,
+          image_url: values.image_url,
+          lat: values.lat,
+          long: values.long,
+        },
+      }).then(({ data }) => onSubmit(data));
+      setShowSuccessToast(true);
+    } catch (error) {
+      setShowErrorToast(true);
+    }
   };
 
   return (
@@ -70,7 +100,7 @@ const EditPost = ({
         }
         return errors;
       }}
-      onSubmit={(values) => handleSubmit(values)}
+      onSubmit={(values: IPost) => handleSubmit(values)}
     >
       {({ values, submitForm }) => (
         <Form style={{ height: "100%" }}>
@@ -92,7 +122,7 @@ const EditPost = ({
               </Grid>
               <Grid item>
                 <IconButton
-                  disabled={submitting}
+                  disabled={loading}
                   onClick={onCancel}
                   aria-label="delete"
                 >
@@ -151,13 +181,13 @@ const EditPost = ({
               name="long"
             />
             <div style={{ marginTop: "auto" }}>
-              {submitting && <LinearProgress />}
+              {loading && <LinearProgress />}
               <ButtonGroup fullWidth aria-label="outlined primary button group">
                 <Button
                   variant="contained"
                   startIcon={<CheckIcon />}
                   color="primary"
-                  disabled={submitting}
+                  disabled={loading}
                   onClick={submitForm}
                 >
                   Save
@@ -166,14 +196,39 @@ const EditPost = ({
                   variant="contained"
                   startIcon={<DeleteIcon />}
                   color="error"
-                  disabled={submitting}
-                  onClick={() => "Delete action"}
+                  disabled={loading}
+                  onClick={() => setShowErrorToast(true)}
                 >
                   Delete
                 </Button>
               </ButtonGroup>
             </div>
           </Grid>
+
+          {/* Success Toast */}
+          <Snackbar
+            open={showSuccessToast}
+            autoHideDuration={6000}
+            onClose={() => setShowSuccessToast(false)}
+          >
+            <Alert
+              severity="success"
+              onClose={() => setShowSuccessToast(false)}
+            >
+              Post {values.title} updated
+            </Alert>
+          </Snackbar>
+
+          {/* Error Toast */}
+          <Snackbar
+            open={showErrorToast}
+            autoHideDuration={6000}
+            onClose={() => setShowErrorToast(false)}
+          >
+            <Alert severity="error" onClose={() => setShowErrorToast(false)}>
+              Error: {error}
+            </Alert>
+          </Snackbar>
         </Form>
       )}
     </Formik>

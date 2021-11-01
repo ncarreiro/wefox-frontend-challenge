@@ -1,3 +1,6 @@
+// REACT
+import { useState } from "react";
+
 // MATERIAL UI COMPONENTS
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -13,11 +16,14 @@ import IPost from "../types/Post";
 
 // NO IMAGE FALLBACK
 import noImage from "../images/no-image.jpg";
-import { useState } from "react";
 import EditPost from "./forms/EditPost";
 
 // STYLING
 import "./Post.scss";
+
+interface IPostComponent extends IPost {
+  onChange: (post: IPost) => void;
+}
 
 const Post = ({
   id,
@@ -28,7 +34,8 @@ const Post = ({
   long,
   created_at,
   updated_at,
-}: IPost) => {
+  onChange,
+}: IPostComponent) => {
   const [showDrawer, setShowDrawer] = useState(false);
 
   return (
@@ -146,6 +153,7 @@ const Post = ({
             created_at,
             updated_at,
           }}
+          onSubmit={(post: IPost) => onChange(post)}
           onCancel={() => setShowDrawer(false)}
         />
       </Drawer>
