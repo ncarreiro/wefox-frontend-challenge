@@ -5,6 +5,7 @@ import IPost from "../types/Post";
 import noImage from "../images/no-image.jpg";
 
 const Post = ({
+  id,
   title,
   image_url,
   content,
@@ -13,10 +14,12 @@ const Post = ({
   created_at,
   updated_at,
 }: IPost) => (
-  <tr>
+  <tr data-testid={`post-${id}`}>
+    <td>{id}</td>
     <td>{title}</td>
     <td>
       <img
+        data-testid={`post-${id}-image`}
         src={image_url}
         style={{ maxWidth: 400 }}
         onError={(event: any) => (event.target.src = noImage)}

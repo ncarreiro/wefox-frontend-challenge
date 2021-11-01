@@ -10,23 +10,24 @@ import Post from "./Post";
 const PostsTable = () => {
   const [{ data: posts, loading, error }] = useAxios("/posts");
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+  if (loading) return <div data-testid="posts-table">Loading...</div>;
+  if (error) return <div data-testid="posts-table">{error.message}</div>;
 
   return (
-    <table>
+    <table data-testid="posts-table">
       <thead>
-        <td>Title</td>
-        <td>Image</td>
-        <td>Content</td>
-        <td>Latitude</td>
-        <td>Longitude</td>
-        <td>Created At</td>
-        <td>Updated At</td>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Image</th>
+        <th>Content</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Created At</th>
+        <th>Updated At</th>
       </thead>
       <tbody>
         {posts.map((post: IPost) => (
-          <Post {...post} />
+          <Post key={post.id} {...post} />
         ))}
       </tbody>
     </table>
