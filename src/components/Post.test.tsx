@@ -14,73 +14,37 @@ const PostMockup = {
 };
 
 test("renders Post", () => {
-  render(
-    <table>
-      <tbody>
-        <Post {...PostMockup} />
-      </tbody>
-    </table>
-  );
+  render(<Post {...PostMockup} />);
   const postElement = screen.getByTestId(`post-${PostMockup.id}`);
   expect(postElement).toBeInTheDocument();
 });
 
 test("renders Post with title Madrid", () => {
-  render(
-    <table>
-      <tbody>
-        <Post {...PostMockup} />
-      </tbody>
-    </table>
-  );
+  render(<Post {...PostMockup} />);
   const postElement = screen.getByText("Madrid");
   expect(postElement).toBeInTheDocument();
 });
 
 test("renders Post with mockup content", () => {
-  render(
-    <table>
-      <tbody>
-        <Post {...PostMockup} />
-      </tbody>
-    </table>
-  );
+  render(<Post {...PostMockup} />);
   const postElement = screen.getByText(PostMockup.content);
   expect(postElement).toBeInTheDocument();
 });
 
 test("renders Post with mockup latitude", () => {
-  render(
-    <table>
-      <tbody>
-        <Post {...PostMockup} />
-      </tbody>
-    </table>
-  );
+  render(<Post {...PostMockup} />);
   const postElement = screen.getByText(PostMockup.lat);
   expect(postElement).toBeInTheDocument();
 });
 
 test("renders Post with mockup longitude", () => {
-  render(
-    <table>
-      <tbody>
-        <Post {...PostMockup} />
-      </tbody>
-    </table>
-  );
+  render(<Post {...PostMockup} />);
   const postElement = screen.getByText(PostMockup.long);
   expect(postElement).toBeInTheDocument();
 });
 
 test("renders Post with mockup image src", () => {
-  render(
-    <table>
-      <tbody>
-        <Post {...PostMockup} />
-      </tbody>
-    </table>
-  );
+  render(<Post {...PostMockup} />);
   const imageElement = screen.getByTestId(`post-${PostMockup.id}-image`);
   expect(imageElement).toHaveAttribute("src", PostMockup.image_url);
 });
