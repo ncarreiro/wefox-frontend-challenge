@@ -22,7 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // CONTEXTS
-import { NotificationContext } from "../../App";
+import { ModalContext, NotificationContext } from "../../App";
 
 // INTERFACES
 import IPost from "../../types/Post";
@@ -32,6 +32,7 @@ import "./EditPostForm.scss";
 
 interface IEditPost extends IPost {
   onSubmit: (post: IPost) => void;
+  onDelete: (id: number) => void;
   onCancel: () => void;
 }
 
@@ -45,10 +46,12 @@ const EditPostForm = ({
   created_at,
   updated_at,
   onSubmit,
+  onDelete,
   onCancel,
 }: IEditPost) => {
   // NOTIFICATION CONTEXT
-  const { dispatch: notificationPush } = useContext(NotificationContext);
+  const { dispatch: notificationDispatch } = useContext(NotificationContext);
+  const { dispatch: modalDispatch } = useContext(ModalContext);
 
   // AXIOS PUT METHOD
   const [{ loading: putLoading, error: putError }, executePut] = useAxios(
@@ -58,6 +61,16 @@ const EditPostForm = ({
     },
     { manual: true }
   );
+
+  // AXIOS DELETE METHOD
+  const [{ loading: deleteLoading, error: deleteError }, executeDelete] =
+    useAxios(
+      {
+        url: `/posts/${id}`,
+        method: "DELETE",
+      },
+      { manual: true }
+    );
 
   const handleSubmit = async (values: IPost) => {
     try {
@@ -70,14 +83,33 @@ const EditPostForm = ({
           long: values.long,
         },
       }).then(({ data: post }) => {
-        notificationPush({
+        notificationDispatch({
           type: "success",
           message: `Post ${values.title} updated`,
         });
         onSubmit(post);
       });
     } catch (e) {
-      notificationPush({ type: "error", message: `${putError || e}` });
+      notificationDispatch({ type: "error", message: `${putError || e}` });
+    }
+  };
+
+  const handleDelete = () => {
+    try {
+      modalDispatch({
+        type: "open",
+        message: `Are you sure you want to delete this post (${title})?`,
+        onConfirm: () =>
+          executeDelete().then(() => {
+            onDelete(id);
+            notificationDispatch({
+              type: "success",
+              message: `Post ${title} deleted`,
+            });
+          }),
+      });
+    } catch (e) {
+      notificationDispatch({ type: "error", message: `${deleteError || e}` });
     }
   };
 
@@ -127,7 +159,7 @@ const EditPostForm = ({
                 </Typography>
               </Grid>
               <IconButton
-                disabled={putLoading}
+                disabled={putLoading || deleteLoading}
                 onClick={onCancel}
                 aria-label="delete"
                 color="inherit"
@@ -193,13 +225,13 @@ const EditPostForm = ({
               flexDirection="column"
               sx={{ marginTop: "auto", p: 2 }}
             >
-              {putLoading && <LinearProgress />}
+              {(putLoading || deleteLoading) && <LinearProgress />}
               <ButtonGroup fullWidth>
                 <Button
                   variant="contained"
                   startIcon={<CheckIcon />}
                   color="secondary"
-                  disabled={putLoading}
+                  disabled={putLoading || deleteLoading}
                   onClick={submitForm}
                 >
                   Save
@@ -208,7 +240,8 @@ const EditPostForm = ({
                   variant="contained"
                   startIcon={<DeleteIcon />}
                   color="error"
-                  disabled={putLoading}
+                  disabled={putLoading || deleteLoading}
+                  onClick={handleDelete}
                 >
                   Delete
                 </Button>

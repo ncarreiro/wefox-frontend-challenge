@@ -25,6 +25,7 @@ import "./PostCard.scss";
 
 interface IPostCardComponent extends IPost {
   onPostChange: (post: IPost) => void;
+  onPostDelete: (id: number) => void;
 }
 
 const PostCard = ({
@@ -37,12 +38,18 @@ const PostCard = ({
   created_at,
   updated_at,
   onPostChange,
+  onPostDelete,
 }: IPostCardComponent) => {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const handleEditSubmit = (post: IPost) => {
     setShowDrawer(false);
     onPostChange(post);
+  };
+
+  const handleDeleteSubmit = (id: number) => {
+    setShowDrawer(false);
+    onPostDelete(id);
   };
 
   return (
@@ -161,6 +168,7 @@ const PostCard = ({
             updated_at,
           }}
           onSubmit={(post: IPost) => handleEditSubmit(post)}
+          onDelete={(id: number) => handleDeleteSubmit(id)}
           onCancel={() => setShowDrawer(false)}
         />
       </Drawer>

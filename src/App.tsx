@@ -15,15 +15,26 @@ import PostsGrid from "./components/PostsGrid";
 
 // STYLING
 import "./App.scss";
+import ConfirmationModal from "./components/modals/ConfirmationModal";
 
 // NOTIFICATIONS
-interface INotification {
+export interface INotification {
   open: boolean;
   status: AlertColor;
   message: string;
 }
 
+export interface IModal {
+  open: boolean;
+  message: string;
+  onConfirm: () => void;
+}
+
 export const NotificationContext = createContext<any>({
+  dispatch: () => {},
+});
+
+export const ModalContext = createContext<any>({
   dispatch: () => {},
 });
 
@@ -37,7 +48,25 @@ function notificationReducer(
     case "error":
       return { open: true, status: "error", message: action.message };
     case "close":
-      return { open: false, status: "info", message: "" };
+      return { ...state, open: false };
+    default:
+      throw new Error();
+  }
+}
+
+function modalReducer(
+  state: { open: boolean; message: string; onConfirm: () => void },
+  action: { type: "open" | "close"; message: string; onConfirm: () => void }
+) {
+  switch (action.type) {
+    case "open":
+      return {
+        open: true,
+        message: action.message,
+        onConfirm: action.onConfirm,
+      };
+    case "close":
+      return { ...state, open: false };
     default:
       throw new Error();
   }
@@ -45,49 +74,64 @@ function notificationReducer(
 
 function App() {
   // NOTIFICATION REDUCER
-  const [notification, dispatch] = useReducer<any>(notificationReducer, {
+  const [notification, notificationDispatch] = useReducer<any>(
+    notificationReducer,
+    {
+      open: false,
+      status: "info",
+      message: "",
+    }
+  ) as [notification: INotification, dispatch: Dispatch<any>];
+
+  // MODAL REDUCER
+  const [modal, modalDispatch] = useReducer<any>(modalReducer, {
     open: false,
-    status: "info",
     message: "",
-  }) as [notification: INotification, dispatch: Dispatch<any>];
+  }) as [modal: IModal, dispatch: Dispatch<any>];
 
   return (
-    <NotificationContext.Provider value={{ dispatch }}>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        sx={{ py: 2 }}
-      >
-        <Grid item xs={12} sx={{ my: 2 }}>
-          <Typography
-            variant="h4"
-            align="center"
-            component="div"
-            fontWeight="700"
-            className="app__title"
-          >
-            wefox <span className="app__title--secondary">Frontend</span>{" "}
-            Challenge
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <PostsGrid />
-        </Grid>
-
-        <Snackbar
-          open={notification.open}
-          autoHideDuration={6000}
-          onClose={() => dispatch({ type: "close" })}
+    <NotificationContext.Provider value={{ dispatch: notificationDispatch }}>
+      <ModalContext.Provider value={{ modal, dispatch: modalDispatch }}>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          sx={{ py: 2 }}
         >
-          <Alert
-            severity={notification.status}
-            onClose={() => dispatch({ type: "close" })}
+          <Grid item xs={12} sx={{ my: 2 }}>
+            <Typography
+              variant="h4"
+              align="center"
+              component="div"
+              fontWeight="700"
+              className="app__title"
+            >
+              wefox <span className="app__title--secondary">Frontend</span>{" "}
+              Challenge
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <PostsGrid />
+          </Grid>
+
+          {/* NOTIFICATIONS */}
+          <Snackbar
+            open={notification.open}
+            autoHideDuration={6000}
+            onClose={() => notificationDispatch({ type: "close" })}
           >
-            {notification.message}
-          </Alert>
-        </Snackbar>
-      </Grid>
+            <Alert
+              severity={notification.status}
+              onClose={() => notificationDispatch({ type: "close" })}
+            >
+              {notification.message}
+            </Alert>
+          </Snackbar>
+
+          {/* MODAL */}
+          <ConfirmationModal modal={modal} />
+        </Grid>
+      </ModalContext.Provider>
     </NotificationContext.Provider>
   );
 }

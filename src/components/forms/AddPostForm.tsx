@@ -60,7 +60,7 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
       }).then(({ data: post }) => {
         notificationPush({
           type: "success",
-          message: `Post ${values.title} updated`,
+          message: `Post ${values.title} added`,
         });
         onSubmit(post);
       });
@@ -72,6 +72,7 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
   return (
     <Formik
       initialValues={{
+        id: 0,
         title: "",
         content: "",
         image_url: "",

@@ -63,11 +63,16 @@ const PostsGrid = () => {
     );
 
   const handleOnPostChange = (post: IPost) => {
-    const newPosts = [...posts].map((newPost: IPost) => {
-      if (newPost.id === post.id) return post;
-      return newPost;
-    });
-    newPosts.length && setPosts(newPosts);
+    const newPosts =
+      [...posts].map((newPost: IPost) =>
+        newPost.id === post.id ? post : newPost
+      ) || [];
+    setPosts(newPosts);
+  };
+
+  const handleOnPostDelete = (id: number) => {
+    const newPosts = [...posts].filter((oldPost) => oldPost.id !== id) || [];
+    setPosts(newPosts);
   };
 
   const handleOnPostAdd = (newPost: IPost) => {
@@ -89,6 +94,7 @@ const PostsGrid = () => {
           {...post}
           key={post.id}
           onPostChange={(post: IPost) => handleOnPostChange(post)}
+          onPostDelete={(id: number) => handleOnPostDelete(id)}
         />
       ))}
     </Grid>
