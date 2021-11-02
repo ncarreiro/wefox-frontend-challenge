@@ -81,14 +81,21 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
       }}
       validate={(values: IPost) => {
         const errors: Partial<IPost> = {};
+
         if (!values.title) {
           errors.title = "Required";
+        }
+        if (!values.content) {
+          errors.content = "Required";
         }
         if (!values.image_url) {
           errors.image_url = "Required";
         }
-        if (!values.content) {
-          errors.content = "Required";
+        if (!values.lat) {
+          errors.lat = "Required";
+        }
+        if (!values.long) {
+          errors.long = "Required";
         }
         return errors;
       }}
@@ -151,7 +158,7 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
                 sx={{ width: "100%", my: 2 }}
                 variant="standard"
                 component={TextField}
-                type="text"
+                type="number"
                 label="Latitude"
                 name="lat"
               />
@@ -159,7 +166,7 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
                 sx={{ width: "100%", my: 2 }}
                 variant="standard"
                 component={TextField}
-                type="text"
+                type="number"
                 label="Longitude"
                 name="long"
               />

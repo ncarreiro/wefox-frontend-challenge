@@ -2,14 +2,16 @@
 import { useContext } from "react";
 
 // MATERIAL UI COMPONENTS
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
+
+// MODAL
 import { IModal, ModalContext } from "../../App";
-import { Typography } from "@mui/material";
 
 const ConfirmationModalTemplate = ({
   message,
@@ -28,14 +30,9 @@ const ConfirmationModalTemplate = ({
   };
 
   return (
-    <Dialog
-      sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 435 } }}
-      maxWidth="xs"
-      open={open}
-      {...other}
-    >
+    <Dialog maxWidth="xs" open={open} {...other}>
       <DialogTitle>Confirm action</DialogTitle>
-      <DialogContent dividers>
+      <DialogContent>
         <Typography>{message}</Typography>
       </DialogContent>
       <DialogActions>

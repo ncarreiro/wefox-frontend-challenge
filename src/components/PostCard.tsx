@@ -3,13 +3,17 @@ import { useState } from "react";
 
 // MATERIAL UI COMPONENTS
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardActionArea from "@mui/material/CardActionArea";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
+
+// ICONS
+import MapIcon from "@mui/icons-material/Map";
 
 // COMPONENTS
 import EditPostForm from "./forms/EditPostForm";
@@ -150,6 +154,15 @@ const PostCard = ({
             </Grid>
           </CardContent>
         </CardActionArea>
+        <Grid container sx={{ p: 2 }} className="post__actions">
+          <Button
+            href={`https://www.google.com/maps?q=${lat},${long}`}
+            target="_blank"
+            startIcon={<MapIcon />}
+          >
+            Open in Google Maps
+          </Button>
+        </Grid>
       </Card>
       <Drawer
         anchor="right"

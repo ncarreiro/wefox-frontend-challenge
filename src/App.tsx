@@ -17,7 +17,7 @@ import PostsGrid from "./components/PostsGrid";
 import "./App.scss";
 import ConfirmationModal from "./components/modals/ConfirmationModal";
 
-// NOTIFICATIONS
+// INTERFACES
 export interface INotification {
   open: boolean;
   status: AlertColor;
@@ -30,6 +30,7 @@ export interface IModal {
   onConfirm: () => void;
 }
 
+// CONTEXTS
 export const NotificationContext = createContext<any>({
   dispatch: () => {},
 });
@@ -38,10 +39,11 @@ export const ModalContext = createContext<any>({
   dispatch: () => {},
 });
 
-function notificationReducer(
+// REDUCERS
+const notificationReducer = (
   state: { open: boolean; status: string; message: string },
   action: { type: "success" | "error" | "close"; message: string }
-) {
+) => {
   switch (action.type) {
     case "success":
       return { open: true, status: "success", message: action.message };
@@ -52,12 +54,12 @@ function notificationReducer(
     default:
       throw new Error();
   }
-}
+};
 
-function modalReducer(
+const modalReducer = (
   state: { open: boolean; message: string; onConfirm: () => void },
   action: { type: "open" | "close"; message: string; onConfirm: () => void }
-) {
+) => {
   switch (action.type) {
     case "open":
       return {
@@ -70,9 +72,9 @@ function modalReducer(
     default:
       throw new Error();
   }
-}
+};
 
-function App() {
+const App = () => {
   // NOTIFICATION REDUCER
   const [notification, notificationDispatch] = useReducer<any>(
     notificationReducer,
@@ -134,6 +136,6 @@ function App() {
       </ModalContext.Provider>
     </NotificationContext.Provider>
   );
-}
+};
 
 export default App;

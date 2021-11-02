@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 // AXIOS
 import useAxios from "axios-hooks";
 
-// INTERFACES
-import IPost from "../types/Post";
-
 // MATERIAL UI COMPONENTS
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -14,6 +11,9 @@ import Typography from "@mui/material/Typography";
 // COMPONENTS
 import PostCard from "./PostCard";
 import AddPostCard from "./AddPostCard";
+
+// INTERFACES
+import IPost from "../types/Post";
 
 const PostsGrid = () => {
   const [{ data, loading, error }] = useAxios("/posts");
