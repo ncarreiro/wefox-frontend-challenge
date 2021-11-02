@@ -1,0 +1,8 @@
+@import "styles/colors";
+
+.edit-post {
+    &__title {
+        color: $neutral-start;
+        background-color: $primary-base;
+    }
+}

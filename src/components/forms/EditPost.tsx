@@ -28,6 +28,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // INTERFACES
 import IPost from "../../types/Post";
 
+// STYLING
+import "./EditPost.scss";
+
 interface IEditPost extends IPost {
   onSubmit: (post: IPost) => void;
   onCancel: () => void;
@@ -107,80 +110,86 @@ const EditPost = ({
           <Grid
             container
             flexDirection="column"
-            sx={{ width: 460, height: "100%", p: 2 }}
+            sx={{ width: 460, height: "100%" }}
           >
-            <Grid container>
-              <Grid item xs>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  style={{ color: "#543d96" }}
-                >
+            <Grid
+              container
+              sx={{ p: 2 }}
+              alignItems="center"
+              className="edit-post__title"
+            >
+              <Grid item xs sx={{ width: 0 }}>
+                <Typography variant="h5" component="div" noWrap>
                   {values.title}
                 </Typography>
               </Grid>
-              <Grid item>
-                <IconButton
-                  disabled={loading}
-                  onClick={onCancel}
-                  aria-label="delete"
-                >
-                  <CloseIcon />
-                </IconButton>
-              </Grid>
+              <IconButton
+                disabled={loading}
+                onClick={onCancel}
+                aria-label="delete"
+                color="inherit"
+              >
+                <CloseIcon />
+              </IconButton>
             </Grid>
-            <Field
-              sx={{ width: "100%", my: 2 }}
-              variant="standard"
-              component={TextField}
-              type="number"
-              label="ID"
-              name="id"
-              disabled
-            />
-            <Field
-              sx={{ width: "100%", my: 2 }}
-              variant="standard"
-              component={TextField}
-              type="text"
-              label="Title"
-              name="title"
-            />
-            <Field
-              sx={{ width: "100%", my: 2 }}
-              variant="standard"
-              multiline
-              component={TextField}
-              type="text"
-              label="Content"
-              name="content"
-            />
-            <Field
-              sx={{ width: "100%", my: 2 }}
-              variant="standard"
-              component={TextField}
-              type="text"
-              label="Image"
-              name="image_url"
-            />
-            <Field
-              sx={{ width: "100%", my: 2 }}
-              variant="standard"
-              component={TextField}
-              type="text"
-              label="Latitude"
-              name="lat"
-            />
-            <Field
-              sx={{ width: "100%", my: 2 }}
-              variant="standard"
-              component={TextField}
-              type="text"
-              label="Longitude"
-              name="long"
-            />
-            <div style={{ marginTop: "auto" }}>
+            <Grid item container flexDirection="column" sx={{ p: 2 }}>
+              <Field
+                sx={{ width: "100%", my: 2 }}
+                variant="standard"
+                component={TextField}
+                type="number"
+                label="ID"
+                name="id"
+                disabled
+              />
+              <Field
+                sx={{ width: "100%", my: 2 }}
+                variant="standard"
+                component={TextField}
+                type="text"
+                label="Title"
+                name="title"
+              />
+              <Field
+                sx={{ width: "100%", my: 2 }}
+                variant="standard"
+                multiline
+                component={TextField}
+                type="text"
+                label="Content"
+                name="content"
+              />
+              <Field
+                sx={{ width: "100%", my: 2 }}
+                variant="standard"
+                component={TextField}
+                type="text"
+                label="Image"
+                name="image_url"
+              />
+              <Field
+                sx={{ width: "100%", my: 2 }}
+                variant="standard"
+                component={TextField}
+                type="text"
+                label="Latitude"
+                name="lat"
+              />
+              <Field
+                sx={{ width: "100%", my: 2 }}
+                variant="standard"
+                component={TextField}
+                type="text"
+                label="Longitude"
+                name="long"
+              />
+            </Grid>
+            <Grid
+              item
+              container
+              flexDirection="column"
+              sx={{ marginTop: "auto", p: 2 }}
+            >
               {loading && <LinearProgress />}
               <ButtonGroup fullWidth aria-label="outlined primary button group">
                 <Button
@@ -202,7 +211,7 @@ const EditPost = ({
                   Delete
                 </Button>
               </ButtonGroup>
-            </div>
+            </Grid>
           </Grid>
 
           {/* Success Toast */}
