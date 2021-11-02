@@ -16,16 +16,16 @@ import Divider from "@mui/material/Divider";
 import MapIcon from "@mui/icons-material/Map";
 
 // COMPONENTS
-import EditPostForm from "./forms/EditPostForm";
+import EditPostForm from "../forms/EditPostForm";
 
 // INTERFACES
-import IPost from "../types/Post";
+import IPost from "../../types/Post";
 
 // NO IMAGE FALLBACK
-import noImage from "../images/no-image.jpg";
+import noImage from "./images/no-image.jpg";
 
 // STYLING
-import "./PostCard.scss";
+import "./styles/PostCard.scss";
 
 interface IPostCardComponent extends IPost {
   onPostChange: (post: IPost) => void;

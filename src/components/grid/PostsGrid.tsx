@@ -9,17 +9,34 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
 // COMPONENTS
-import PostCard from "./PostCard";
-import AddPostCard from "./AddPostCard";
+import PostCard from "../cards/PostCard";
+import AddPostCard from "../cards/AddPostCard";
 
 // INTERFACES
-import IPost from "../types/Post";
+import IPost from "../../types/Post";
 
 const PostsGrid = () => {
   const [{ data, loading, error }] = useAxios("/posts");
   const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => setPosts(data), [data]);
+
+  const handleOnPostChange = (post: IPost) => {
+    const newPosts =
+      [...posts].map((newPost: IPost) =>
+        newPost.id === post.id ? post : newPost
+      ) || [];
+    setPosts(newPosts);
+  };
+
+  const handleOnPostDelete = (id: number) => {
+    const newPosts = [...posts].filter((oldPost) => oldPost.id !== id) || [];
+    setPosts(newPosts);
+  };
+
+  const handleOnPostAdd = (newPost: IPost) => {
+    setPosts([...posts, newPost]);
+  };
 
   if (loading)
     return (
@@ -28,7 +45,7 @@ const PostsGrid = () => {
         justifyContent="center"
         alignItems="center"
         sx={{ my: 2 }}
-        data-testid="posts-table"
+        data-testid="posts-grid"
       >
         <Typography
           variant="h4"
@@ -48,7 +65,7 @@ const PostsGrid = () => {
         justifyContent="center"
         alignItems="center"
         sx={{ my: 2 }}
-        data-testid="posts-table"
+        data-testid="posts-grid"
       >
         <Typography
           variant="h4"
@@ -62,30 +79,13 @@ const PostsGrid = () => {
       </Grid>
     );
 
-  const handleOnPostChange = (post: IPost) => {
-    const newPosts =
-      [...posts].map((newPost: IPost) =>
-        newPost.id === post.id ? post : newPost
-      ) || [];
-    setPosts(newPosts);
-  };
-
-  const handleOnPostDelete = (id: number) => {
-    const newPosts = [...posts].filter((oldPost) => oldPost.id !== id) || [];
-    setPosts(newPosts);
-  };
-
-  const handleOnPostAdd = (newPost: IPost) => {
-    setPosts([...posts, newPost]);
-  };
-
   return (
     <Grid
       container
       justifyContent="center"
       alignItems="center"
       spacing={4}
-      data-testid="posts-table"
+      data-testid="posts-grid"
       sx={{ my: 2 }}
     >
       <AddPostCard onPostAdd={(post: IPost) => handleOnPostAdd(post)} />

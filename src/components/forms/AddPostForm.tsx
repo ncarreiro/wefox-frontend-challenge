@@ -27,7 +27,7 @@ import { NotificationContext } from "../../App";
 import IPost from "../../types/Post";
 
 // STYLING
-import "./AddPostForm.scss";
+import "./styles/AddPostForm.scss";
 
 interface IAddPost {
   onSubmit: (post: IPost) => void;
@@ -102,7 +102,7 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
       onSubmit={(values: IPost) => handleSubmit(values)}
     >
       {({ submitForm }) => (
-        <Form style={{ height: "100%" }}>
+        <Form style={{ height: "100%" }} data-testid="add-post-form">
           <Grid
             container
             flexDirection="column"

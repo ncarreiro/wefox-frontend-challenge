@@ -49,7 +49,10 @@ const ConfirmationModal = ({ modal }: { modal: IModal }) => {
   const { dispatch } = useContext(ModalContext);
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <Box
+      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      data-testid="confirmation-modal"
+    >
       <ConfirmationModalTemplate
         open={modal.open}
         message={modal.message}

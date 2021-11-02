@@ -11,10 +11,10 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 // COMPONENTS
-import PostsGrid from "./components/PostsGrid";
+import PostsGrid from "./components/grid/PostsGrid";
 
 // STYLING
-import "./App.scss";
+import "./styles/App.scss";
 import ConfirmationModal from "./components/modals/ConfirmationModal";
 
 // INTERFACES

@@ -28,7 +28,7 @@ import { ModalContext, NotificationContext } from "../../App";
 import IPost from "../../types/Post";
 
 // STYLING
-import "./EditPostForm.scss";
+import "./styles/EditPostForm.scss";
 
 interface IEditPost extends IPost {
   onSubmit: (post: IPost) => void;
@@ -147,7 +147,7 @@ const EditPostForm = ({
       onSubmit={(values: IPost) => handleSubmit(values)}
     >
       {({ values, submitForm }) => (
-        <Form style={{ height: "100%" }}>
+        <Form style={{ height: "100%" }} data-testid="edit-post-form">
           <Grid
             container
             flexDirection="column"

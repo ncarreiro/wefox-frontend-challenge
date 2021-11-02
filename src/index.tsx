@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import App from "./App";
 
 // STYLING
-import "./index.scss";
+import "./styles/index.scss";
 
 // AXIOS
 import Axios from "axios";

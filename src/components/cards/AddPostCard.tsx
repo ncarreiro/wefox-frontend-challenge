@@ -13,13 +13,13 @@ import CardActionArea from "@mui/material/CardActionArea";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 // COMPONENTS
-import AddPostForm from "./forms/AddPostForm";
+import AddPostForm from "../forms/AddPostForm";
 
 // INTERFACES
-import IPost from "../types/Post";
+import IPost from "../../types/Post";
 
 // STYLING
-import "./PostCard.scss";
+import "./styles/PostCard.scss";
 
 interface IAddPostCard {
   onPostAdd: (post: IPost) => void;
@@ -34,8 +34,8 @@ const AddPostCard = ({ onPostAdd }: IAddPostCard) => {
   };
 
   return (
-    <Grid item>
-      <Card sx={{ maxWidth: 345 }} data-testid="post-add">
+    <Grid item data-testid="post-add">
+      <Card sx={{ maxWidth: 345 }}>
         <CardActionArea onClick={() => setShowDrawer(true)}>
           <CardContent>
             <Grid
@@ -45,12 +45,17 @@ const AddPostCard = ({ onPostAdd }: IAddPostCard) => {
               rowGap={2}
               sx={{ p: 2 }}
             >
-              <AddCircleIcon fontSize="large" color="primary" />
+              <AddCircleIcon
+                fontSize="large"
+                color="primary"
+                data-testid="post-add-icon"
+              />
               <Typography
                 gutterBottom
                 variant="h5"
                 component="div"
                 color="primary"
+                data-testid="post-add-text"
               >
                 Add post
               </Typography>
@@ -62,6 +67,7 @@ const AddPostCard = ({ onPostAdd }: IAddPostCard) => {
         anchor="right"
         open={showDrawer}
         onClose={() => setShowDrawer(false)}
+        data-testid="post-add-drawer"
       >
         <AddPostForm
           onSubmit={(data: IPost) => handleAddSubmit(data)}
