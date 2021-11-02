@@ -6,6 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm run api`
+
+Runs the Docker Compose API to GET, PUT, POST and DELETE the list of posts.
+
 ### `npm start`
 
 Runs the app in the development mode.\
