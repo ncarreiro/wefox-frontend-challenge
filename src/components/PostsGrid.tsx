@@ -12,7 +12,8 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
 // COMPONENTS
-import Post from "./Post";
+import PostCard from "./PostCard";
+import AddPostCard from "./AddPostCard";
 
 const PostsGrid = () => {
   const [{ data, loading, error }] = useAxios("/posts");
@@ -69,6 +70,10 @@ const PostsGrid = () => {
     newPosts.length && setPosts(newPosts);
   };
 
+  const handleOnPostAdd = (newPost: IPost) => {
+    setPosts([...posts, newPost]);
+  };
+
   return (
     <Grid
       container
@@ -78,8 +83,9 @@ const PostsGrid = () => {
       data-testid="posts-table"
       sx={{ my: 2 }}
     >
+      <AddPostCard onPostAdd={(post: IPost) => handleOnPostAdd(post)} />
       {posts?.map((post: IPost) => (
-        <Post
+        <PostCard
           {...post}
           key={post.id}
           onPostChange={(post: IPost) => handleOnPostChange(post)}

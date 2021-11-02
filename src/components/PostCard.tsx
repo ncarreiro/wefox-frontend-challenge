@@ -11,21 +11,23 @@ import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 
+// COMPONENTS
+import EditPostForm from "./forms/EditPostForm";
+
 // INTERFACES
 import IPost from "../types/Post";
 
 // NO IMAGE FALLBACK
 import noImage from "../images/no-image.jpg";
-import EditPost from "./forms/EditPost";
 
 // STYLING
-import "./Post.scss";
+import "./PostCard.scss";
 
-interface IPostComponent extends IPost {
+interface IPostCardComponent extends IPost {
   onPostChange: (post: IPost) => void;
 }
 
-const Post = ({
+const PostCard = ({
   id,
   title,
   image_url,
@@ -35,7 +37,7 @@ const Post = ({
   created_at,
   updated_at,
   onPostChange,
-}: IPostComponent) => {
+}: IPostCardComponent) => {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const handleEditSubmit = (post: IPost) => {
@@ -147,7 +149,7 @@ const Post = ({
         open={showDrawer}
         onClose={() => setShowDrawer(false)}
       >
-        <EditPost
+        <EditPostForm
           {...{
             id,
             title,
@@ -166,4 +168,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default PostCard;

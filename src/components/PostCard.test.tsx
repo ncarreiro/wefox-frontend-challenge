@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Post from "./Post";
+import PostCard from "./PostCard";
 
 const PostMockup = {
   id: 1,
@@ -13,38 +13,38 @@ const PostMockup = {
   updated_at: "2020-04-24T11:43:34.020Z",
 };
 
-test("renders Post", () => {
-  render(<Post {...PostMockup} />);
+test("renders PostCard", () => {
+  render(<PostCard onPostChange={() => {}} {...PostMockup} />);
   const postElement = screen.getByTestId(`post-${PostMockup.id}`);
   expect(postElement).toBeInTheDocument();
 });
 
-test("renders Post with title Madrid", () => {
-  render(<Post {...PostMockup} />);
+test("renders PostCard with title Madrid", () => {
+  render(<PostCard onPostChange={() => {}} {...PostMockup} />);
   const postElement = screen.getByText("Madrid");
   expect(postElement).toBeInTheDocument();
 });
 
-test("renders Post with mockup content", () => {
-  render(<Post {...PostMockup} />);
+test("renders PostCard with mockup content", () => {
+  render(<PostCard onPostChange={() => {}} {...PostMockup} />);
   const postElement = screen.getByText(PostMockup.content);
   expect(postElement).toBeInTheDocument();
 });
 
-test("renders Post with mockup latitude", () => {
-  render(<Post {...PostMockup} />);
+test("renders PostCard with mockup latitude", () => {
+  render(<PostCard onPostChange={() => {}} {...PostMockup} />);
   const postElement = screen.getByText(PostMockup.lat);
   expect(postElement).toBeInTheDocument();
 });
 
-test("renders Post with mockup longitude", () => {
-  render(<Post {...PostMockup} />);
+test("renders PostCard with mockup longitude", () => {
+  render(<PostCard onPostChange={() => {}} {...PostMockup} />);
   const postElement = screen.getByText(PostMockup.long);
   expect(postElement).toBeInTheDocument();
 });
 
-test("renders Post with mockup image src", () => {
-  render(<Post {...PostMockup} />);
+test("renders PostCard with mockup image src", () => {
+  render(<PostCard onPostChange={() => {}} {...PostMockup} />);
   const imageElement = screen.getByTestId(`post-${PostMockup.id}-image`);
   expect(imageElement).toHaveAttribute("src", PostMockup.image_url);
 });

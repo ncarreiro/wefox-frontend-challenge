@@ -16,50 +16,41 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
-// ICONS
+// MATERIAL ICONS
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+// CONTEXTS
+import { NotificationContext } from "../../App";
 
 // INTERFACES
 import IPost from "../../types/Post";
 
 // STYLING
-import "./EditPost.scss";
-import { NotificationContext } from "../../App";
+import "./AddPostForm.scss";
 
-interface IEditPost extends IPost {
+interface IAddPost {
   onSubmit: (post: IPost) => void;
   onCancel: () => void;
 }
 
-const EditPost = ({
-  id,
-  title,
-  image_url,
-  content,
-  lat,
-  long,
-  created_at,
-  updated_at,
-  onSubmit,
-  onCancel,
-}: IEditPost) => {
+const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
   // NOTIFICATION CONTEXT
   const { dispatch: notificationPush } = useContext(NotificationContext);
 
   // AXIOS PUT METHOD
-  const [{ loading: putLoading, error: putError }, executePut] = useAxios(
+  const [{ loading: addLoading, error: addError }, executePost] = useAxios(
     {
-      url: `/posts/${id}`,
-      method: "PUT",
+      url: `/posts`,
+      method: "POST",
     },
     { manual: true }
   );
 
   const handleSubmit = async (values: IPost) => {
     try {
-      await executePut({
+      await executePost({
         data: {
           title: values.title,
           content: values.content,
@@ -67,29 +58,26 @@ const EditPost = ({
           lat: values.lat,
           long: values.long,
         },
-      }).then(({ data }) => {
+      }).then(({ data: post }) => {
         notificationPush({
           type: "success",
           message: `Post ${values.title} updated`,
         });
-        onSubmit(data);
+        onSubmit(post);
       });
     } catch (e) {
-      notificationPush({ type: "error", message: `${putError || e}` });
+      notificationPush({ type: "error", message: `${addError || e}` });
     }
   };
 
   return (
     <Formik
       initialValues={{
-        id,
-        title,
-        image_url,
-        content,
-        lat,
-        long,
-        created_at,
-        updated_at,
+        title: "",
+        content: "",
+        image_url: "",
+        lat: "",
+        long: "",
       }}
       validate={(values: IPost) => {
         const errors: Partial<IPost> = {};
@@ -106,7 +94,7 @@ const EditPost = ({
       }}
       onSubmit={(values: IPost) => handleSubmit(values)}
     >
-      {({ values, submitForm }) => (
+      {({ submitForm }) => (
         <Form style={{ height: "100%" }}>
           <Grid
             container
@@ -117,15 +105,15 @@ const EditPost = ({
               container
               sx={{ p: 2 }}
               alignItems="center"
-              className="edit-post__title"
+              className="add-post__title"
             >
               <Grid item xs sx={{ width: 0 }}>
                 <Typography variant="h5" component="div" noWrap>
-                  {values.title}
+                  Add new post
                 </Typography>
               </Grid>
               <IconButton
-                disabled={putLoading}
+                disabled={addLoading}
                 onClick={onCancel}
                 aria-label="delete"
                 color="inherit"
@@ -134,15 +122,6 @@ const EditPost = ({
               </IconButton>
             </Grid>
             <Grid item container flexDirection="column" sx={{ p: 2 }}>
-              <Field
-                sx={{ width: "100%", my: 2 }}
-                variant="standard"
-                component={TextField}
-                type="number"
-                label="ID"
-                name="id"
-                disabled
-              />
               <Field
                 sx={{ width: "100%", my: 2 }}
                 variant="standard"
@@ -191,22 +170,22 @@ const EditPost = ({
               flexDirection="column"
               sx={{ marginTop: "auto", p: 2 }}
             >
-              {putLoading && <LinearProgress />}
+              {addLoading && <LinearProgress />}
               <ButtonGroup fullWidth aria-label="outlined primary button group">
                 <Button
                   variant="contained"
                   startIcon={<CheckIcon />}
                   color="primary"
-                  disabled={putLoading}
+                  disabled={addLoading}
                   onClick={submitForm}
                 >
-                  Save
+                  Create
                 </Button>
                 <Button
                   variant="contained"
                   startIcon={<DeleteIcon />}
                   color="error"
-                  disabled={putLoading}
+                  disabled={addLoading}
                 >
                   Delete
                 </Button>
@@ -219,4 +198,4 @@ const EditPost = ({
   );
 };
 
-export default EditPost;
+export default AddPostForm;

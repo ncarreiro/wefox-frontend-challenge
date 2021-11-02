@@ -37,7 +37,7 @@ function notificationReducer(
     case "error":
       return { open: true, status: "error", message: action.message };
     case "close":
-      return { open: false, status: "", message: "" };
+      return { open: false, status: "info", message: "" };
     default:
       throw new Error();
   }
@@ -47,7 +47,7 @@ function App() {
   // NOTIFICATION REDUCER
   const [notification, dispatch] = useReducer<any>(notificationReducer, {
     open: false,
-    status: "",
+    status: "info",
     message: "",
   }) as [notification: INotification, dispatch: Dispatch<any>];
 
@@ -75,7 +75,6 @@ function App() {
           <PostsGrid />
         </Grid>
 
-        {/* Success Toast */}
         <Snackbar
           open={notification.open}
           autoHideDuration={6000}
