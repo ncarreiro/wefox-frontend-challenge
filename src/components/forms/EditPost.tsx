@@ -1,5 +1,5 @@
 // REACT
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 // AXIOS
 import useAxios from "axios-hooks";
@@ -46,10 +46,10 @@ const EditPost = ({
   onCancel,
 }: IEditPost) => {
   // NOTIFICATION CONTEXT
-  const { dispatch } = useContext(NotificationContext);
+  const { dispatch: notificationPush } = useContext(NotificationContext);
 
   // AXIOS PUT METHOD
-  const [{ loading, error }, executePut] = useAxios(
+  const [{ loading: putLoading, error: putError }, executePut] = useAxios(
     {
       url: `/posts/${id}`,
       method: "PUT",
@@ -68,14 +68,14 @@ const EditPost = ({
           long: values.long,
         },
       }).then(({ data }) => {
-        dispatch({
+        notificationPush({
           type: "success",
           message: `Post ${values.title} updated`,
         });
         onSubmit(data);
       });
-    } catch (error) {
-      dispatch({ type: "error", message: `Error: ${error}` });
+    } catch (e) {
+      notificationPush({ type: "error", message: `${putError || e}` });
     }
   };
 
@@ -125,7 +125,7 @@ const EditPost = ({
                 </Typography>
               </Grid>
               <IconButton
-                disabled={loading}
+                disabled={putLoading}
                 onClick={onCancel}
                 aria-label="delete"
                 color="inherit"
@@ -191,13 +191,13 @@ const EditPost = ({
               flexDirection="column"
               sx={{ marginTop: "auto", p: 2 }}
             >
-              {loading && <LinearProgress />}
+              {putLoading && <LinearProgress />}
               <ButtonGroup fullWidth aria-label="outlined primary button group">
                 <Button
                   variant="contained"
                   startIcon={<CheckIcon />}
                   color="primary"
-                  disabled={loading}
+                  disabled={putLoading}
                   onClick={submitForm}
                 >
                   Save
@@ -206,7 +206,7 @@ const EditPost = ({
                   variant="contained"
                   startIcon={<DeleteIcon />}
                   color="error"
-                  disabled={loading}
+                  disabled={putLoading}
                 >
                   Delete
                 </Button>
