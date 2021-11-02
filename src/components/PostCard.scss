@@ -1,10 +1,4 @@
-@import "styles/colors";
-
 .post {
-    &__title {
-        color: $primary-base;
-    }
-
     &__content {
         overflow: hidden;
         text-overflow: ellipsis;

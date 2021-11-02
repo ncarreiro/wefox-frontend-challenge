@@ -109,7 +109,7 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
             >
               <Grid item xs sx={{ width: 0 }}>
                 <Typography variant="h5" component="div" noWrap>
-                  Add new post
+                  Add a new post
                 </Typography>
               </Grid>
               <IconButton
@@ -175,19 +175,11 @@ const AddPostForm = ({ onSubmit, onCancel }: IAddPost) => {
                 <Button
                   variant="contained"
                   startIcon={<CheckIcon />}
-                  color="primary"
+                  color="secondary"
                   disabled={addLoading}
                   onClick={submitForm}
                 >
                   Create
-                </Button>
-                <Button
-                  variant="contained"
-                  startIcon={<DeleteIcon />}
-                  color="error"
-                  disabled={addLoading}
-                >
-                  Delete
                 </Button>
               </ButtonGroup>
             </Grid>

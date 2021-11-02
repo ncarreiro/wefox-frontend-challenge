@@ -194,11 +194,11 @@ const EditPostForm = ({
               sx={{ marginTop: "auto", p: 2 }}
             >
               {putLoading && <LinearProgress />}
-              <ButtonGroup fullWidth aria-label="outlined primary button group">
+              <ButtonGroup fullWidth>
                 <Button
                   variant="contained"
                   startIcon={<CheckIcon />}
-                  color="primary"
+                  color="secondary"
                   disabled={putLoading}
                   onClick={submitForm}
                 >

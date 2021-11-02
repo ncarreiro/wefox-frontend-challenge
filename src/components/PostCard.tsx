@@ -62,7 +62,7 @@ const PostCard = ({
               gutterBottom
               variant="h5"
               component="div"
-              className="post__title"
+              color="primary"
             >
               {title}
             </Typography>

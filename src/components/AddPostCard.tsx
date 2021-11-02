@@ -50,9 +50,9 @@ const AddPostCard = ({ onPostAdd }: IAddPostCard) => {
                 gutterBottom
                 variant="h5"
                 component="div"
-                className="post__title"
+                color="primary"
               >
-                Add Post
+                Add post
               </Typography>
             </Grid>
           </CardContent>
