@@ -9,6 +9,7 @@ import IPost from "../types/Post";
 
 // MATERIAL UI COMPONENTS
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 // COMPONENTS
 import Post from "./Post";
@@ -19,8 +20,46 @@ const PostsGrid = () => {
 
   useEffect(() => setPosts(data), [data]);
 
-  if (loading) return <div data-testid="posts-table">Loading...</div>;
-  if (error) return <div data-testid="posts-table">{error.message}</div>;
+  if (loading)
+    return (
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        sx={{ my: 2 }}
+        data-testid="posts-table"
+      >
+        <Typography
+          variant="h4"
+          align="center"
+          component="div"
+          className="app__title"
+        >
+          Loading...
+        </Typography>
+      </Grid>
+    );
+
+  if (error)
+    return (
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        sx={{ my: 2 }}
+        data-testid="posts-table"
+      >
+        <Typography
+          variant="h4"
+          align="center"
+          component="div"
+          fontWeight="700"
+          className="app__title"
+        >
+          {error.message}
+        </Typography>
+      </Grid>
+    );
 
   const handleOnPostChange = (post: IPost) => {
     const newPosts = [...posts].map((newPost: IPost) => {

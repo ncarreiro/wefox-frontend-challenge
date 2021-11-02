@@ -67,7 +67,7 @@ function App() {
             fontWeight="700"
             className="app__title"
           >
-            Wefox <span className="app__title--secondary">Frontend</span>{" "}
+            wefox <span className="app__title--secondary">Frontend</span>{" "}
             Challenge
           </Typography>
         </Grid>
