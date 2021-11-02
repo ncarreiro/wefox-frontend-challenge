@@ -22,7 +22,7 @@ const PostsGrid = () => {
   if (loading) return <div data-testid="posts-table">Loading...</div>;
   if (error) return <div data-testid="posts-table">{error.message}</div>;
 
-  const handleSubmit = (post: IPost) => {
+  const handleOnPostChange = (post: IPost) => {
     const newPosts = [...posts].map((newPost: IPost) => {
       if (newPost.id === post.id) return post;
       return newPost;
@@ -43,7 +43,7 @@ const PostsGrid = () => {
         <Post
           {...post}
           key={post.id}
-          onChange={(post: IPost) => handleSubmit(post)}
+          onPostChange={(post: IPost) => handleOnPostChange(post)}
         />
       ))}
     </Grid>

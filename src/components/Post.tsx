@@ -22,7 +22,7 @@ import EditPost from "./forms/EditPost";
 import "./Post.scss";
 
 interface IPostComponent extends IPost {
-  onChange: (post: IPost) => void;
+  onPostChange: (post: IPost) => void;
 }
 
 const Post = ({
@@ -34,9 +34,14 @@ const Post = ({
   long,
   created_at,
   updated_at,
-  onChange,
+  onPostChange,
 }: IPostComponent) => {
   const [showDrawer, setShowDrawer] = useState(false);
+
+  const handleEditSubmit = (post: IPost) => {
+    setShowDrawer(false);
+    onPostChange(post);
+  };
 
   return (
     <Grid item>
@@ -153,7 +158,7 @@ const Post = ({
             created_at,
             updated_at,
           }}
-          onSubmit={(post: IPost) => onChange(post)}
+          onSubmit={(post: IPost) => handleEditSubmit(post)}
           onCancel={() => setShowDrawer(false)}
         />
       </Drawer>

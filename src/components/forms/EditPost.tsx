@@ -1,5 +1,5 @@
 // REACT
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 
 // AXIOS
 import useAxios from "axios-hooks";
@@ -16,10 +16,6 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
-// TOASTS
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-
 // ICONS
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
@@ -30,6 +26,7 @@ import IPost from "../../types/Post";
 
 // STYLING
 import "./EditPost.scss";
+import { NotificationContext } from "../../App";
 
 interface IEditPost extends IPost {
   onSubmit: (post: IPost) => void;
@@ -48,6 +45,9 @@ const EditPost = ({
   onSubmit,
   onCancel,
 }: IEditPost) => {
+  // NOTIFICATION CONTEXT
+  const { dispatch } = useContext(NotificationContext);
+
   // AXIOS PUT METHOD
   const [{ loading, error }, executePut] = useAxios(
     {
@@ -56,10 +56,6 @@ const EditPost = ({
     },
     { manual: true }
   );
-
-  // TOASTS STATES
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
 
   const handleSubmit = async (values: IPost) => {
     try {
@@ -71,10 +67,15 @@ const EditPost = ({
           lat: values.lat,
           long: values.long,
         },
-      }).then(({ data }) => onSubmit(data));
-      setShowSuccessToast(true);
+      }).then(({ data }) => {
+        dispatch({
+          type: "success",
+          message: `Post ${values.title} updated`,
+        });
+        onSubmit(data);
+      });
     } catch (error) {
-      setShowErrorToast(true);
+      dispatch({ type: "error", message: `Error: ${error}` });
     }
   };
 
@@ -206,38 +207,12 @@ const EditPost = ({
                   startIcon={<DeleteIcon />}
                   color="error"
                   disabled={loading}
-                  onClick={() => setShowErrorToast(true)}
                 >
                   Delete
                 </Button>
               </ButtonGroup>
             </Grid>
           </Grid>
-
-          {/* Success Toast */}
-          <Snackbar
-            open={showSuccessToast}
-            autoHideDuration={6000}
-            onClose={() => setShowSuccessToast(false)}
-          >
-            <Alert
-              severity="success"
-              onClose={() => setShowSuccessToast(false)}
-            >
-              Post {values.title} updated
-            </Alert>
-          </Snackbar>
-
-          {/* Error Toast */}
-          <Snackbar
-            open={showErrorToast}
-            autoHideDuration={6000}
-            onClose={() => setShowErrorToast(false)}
-          >
-            <Alert severity="error" onClose={() => setShowErrorToast(false)}>
-              Error: {error}
-            </Alert>
-          </Snackbar>
         </Form>
       )}
     </Formik>
